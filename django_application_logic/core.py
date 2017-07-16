@@ -19,6 +19,7 @@ class PermissionResult(object):
 
     def __nonzero__(self):
         return self.success
+    __bool__ = __nonzero__
 
     def __eq__(self, other):
         if isinstance(other, (bool, PermissionResult)):

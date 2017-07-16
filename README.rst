@@ -11,12 +11,12 @@ Django Application Logic
 .. image:: https://codecov.io/gh/Valian/django-application-logic/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/Valian/django-application-logic
 
-Django package that makes creating complicated business logic easy
+Django package that makes creating complicated business logic easy. Currently under development.
 
 Documentation
 -------------
 
-The full documentation is at https://django-application-logic.readthedocs.io.
+The full documentation is at https://django-application-logic.readthedocs.io. (WIP)
 
 Quickstart
 ----------

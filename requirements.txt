@@ -1,2 +1,2 @@
-
 # Additional requirements go here
+six==1.10.0

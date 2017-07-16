@@ -5,7 +5,7 @@ Credits
 Development Lead
 ----------------
 
-* Jakub Skałecki <you@example.com>
+* Jakub Skałecki <jakub.skalecki@gmail.com>
 
 Contributors
 ------------

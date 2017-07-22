@@ -9,5 +9,5 @@ class InvalidOperationException(ServiceException):
     pass
 
 
-class OperationNotPermittedException(ServiceException):
+class NotPermittedException(ServiceException):
     pass

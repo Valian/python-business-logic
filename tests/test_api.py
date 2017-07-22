@@ -54,6 +54,7 @@ class TestValidator(TestCase):
 
     def setUp(self):
         self.mock_validator = mock.MagicMock()
+        self.mock_validator.__name__ = 'python2_fix'
         self.decorated_validator = core.validator(self.mock_validator)
 
     def test_validator_raises_exception(self):
@@ -118,6 +119,7 @@ class TestValidatedBy(TestCase):
     def setUp(self):
         self.mock_validator = mock.MagicMock()
         self.validated_func = mock.MagicMock()
+        self.validated_func.__name__ = 'python2_fix'
         self.decorated_validated_func = core.validated_by(self.mock_validator)(self.validated_func)
 
     def test_validated_by_swallows_validate_parameter(self):

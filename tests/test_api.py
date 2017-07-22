@@ -13,16 +13,17 @@ from django.test import TestCase
 from django_application_logic import core, exceptions
 
 
-def create_validation_func(should_raise=False):
+def create_validator(should_raise=False, return_value=None):
     @core.validator
     def func(*args, **kwargs):
         if should_raise:
             raise exceptions.ServiceException("Test exception")
+        return return_value
     return func
 
 
-def create_validator_func(validation_func_raise=False, validator_raise=False):
-    @core.validated_by(create_validation_func(validation_func_raise))
+def create_validated_func(validation_func_raise=False, validator_raise=False):
+    @core.validated_by(create_validator(validation_func_raise))
     def wrapper(*args, **kwargs):
         if validator_raise:
             raise exceptions.ServiceException
@@ -52,27 +53,34 @@ class TestPermissionResult(TestCase):
 
 class TestDjangoApplicationValidation(TestCase):
 
-    def test_validation_func_raises_exception(self):
-        func = create_validation_func(should_raise=True)
+    def test_validator_raises_exception(self):
+        func = create_validator(should_raise=True)
         self.assertRaises(exceptions.ServiceException, lambda: func())
         self.assertRaises(exceptions.ServiceException, lambda: func(raise_exception=True))
 
-    def test_validation_func_returns_permission_result_if_not_raising(self):
-        success_func = create_validation_func(should_raise=False)
-        failure_func = create_validation_func(should_raise=True)
+    def test_passed_validator_returns_success_validation_result(self):
+        success_func = create_validator(should_raise=False)
+        # when validator passes, raise_exception parameter shouldn't make any difference
         success1 = success_func(raise_exception=False)
         success2 = success_func(raise_exception=True)
-        failure1 = failure_func(raise_exception=False)
         self.assertIsInstance(success1, core.ValidationResult)
         self.assertIsInstance(success2, core.ValidationResult)
-        self.assertIsInstance(failure1, core.ValidationResult)
         self.assertTrue(success1)
         self.assertTrue(success2)
         self.assertEqual(success1, success2)
+
+    def test_validator_returns_false_permission_when_exception_raised_and_caught(self):
+        failure_func = create_validator(should_raise=True)
+        failure1 = failure_func(raise_exception=False)
+        self.assertIsInstance(failure1, core.ValidationResult)
         self.assertFalse(failure1)
 
+    def test_generic_services_exception_is_raised_when_validator_return_false(self):
+        func = create_validator(return_value=False)
+        self.assertRaises(core.ServiceException, lambda: func(raise_exception=True))
+
     def test_returned_failure_contains_exception(self):
-        func = create_validation_func(should_raise=True)
+        func = create_validator(should_raise=True)
         result = func(raise_exception=False)
         self.assertFalse(result)
         self.assertFalse(result.success)

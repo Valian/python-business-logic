@@ -25,3 +25,12 @@ class TestErrorsAPI(TestCase):
         self.assertEqual(TestErrors._errors, TestErrors.NO_PERMISSION.errors)
         self.assertEqual(TestErrors._errors, TestErrors.INVALID_ACTION.errors)
 
+    def test_registry_contains_all_errors(self):
+        self.assertEqual(
+            TestErrors._errors,
+            {
+                'NO_PERMISSION': TestErrors.NO_PERMISSION,
+                'INVALID_ACTION': TestErrors.INVALID_ACTION,
+                'generic_error': TestErrors.generic_error,
+            }
+        )

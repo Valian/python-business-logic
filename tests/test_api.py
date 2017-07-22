@@ -51,7 +51,7 @@ class TestPermissionResult(TestCase):
             u'<PermissionResult success=True error=None>')
 
 
-class TestDjangoApplicationValidation(TestCase):
+class TestValidator(TestCase):
 
     def test_validator_raises_exception(self):
         func = create_validator(should_raise=True)
@@ -97,3 +97,17 @@ class TestDjangoApplicationValidation(TestCase):
         self.assertTrue(func_without_args())
         self.assertTrue(func_without_args(raise_exception=False))
         self.assertTrue(func_without_args(raise_exception=True))
+
+
+class TestValidatedBy(TestCase):
+
+    def test_validated_by_swallows_validate_parameter(self):
+        mock_validator = lambda raise_exception: None
+
+        @core.validated_by(mock_validator)
+        def func_without_args():
+            return True
+
+        self.assertTrue(func_without_args())
+        self.assertTrue(func_without_args(validate=True))
+        self.assertTrue(func_without_args(validate=False))

@@ -49,6 +49,7 @@ class TestPermissionResult(TestCase):
         # comparision with other types should raise false
         self.assertFalse(success_result == 1)
 
+
 class TestValidator(TestCase):
 
     def setUp(self):

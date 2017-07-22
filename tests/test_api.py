@@ -28,12 +28,26 @@ class TestPermissionResult(TestCase):
         self.assertEqual(result.error_code, exception.error_code)
         self.assertEqual(result.errors, exception.errors)
 
+    def test_permission_result_delegates_returns_none_if_no_error(self):
+        result = core.ValidationResult(success=True, error=None)
+        self.assertIsNone(result.error_code)
+        self.assertIsNone(result.errors)
+
     def test_permission_result_repr(self):
         result_success = core.ValidationResult(success=True)
         self.assertEqual(
             repr(result_success),
             u'<PermissionResult success=True error=None>')
 
+    def test_comparision(self):
+        success_result = core.ValidationResult(success=True)
+        failure_result = core.ValidationResult(success=False)
+        self.assertEqual(success_result, True)
+        self.assertEqual(failure_result, False)
+        self.assertNotEqual(success_result, failure_result)
+
+        # comparision with other types should raise false
+        self.assertFalse(success_result == 1)
 
 class TestValidator(TestCase):
 
@@ -68,7 +82,7 @@ class TestValidator(TestCase):
         self.assertFalse(failure1)
 
     def test_generic_services_exception_is_raised_when_validator_return_false(self):
-        self.mock_validator.side_effect = exceptions.ServiceException()
+        self.mock_validator.return_value = False
         self.assertRaises(
             core.ServiceException,
             lambda: self.decorated_validator(raise_exception=True))

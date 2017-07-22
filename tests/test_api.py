@@ -8,6 +8,7 @@ test_django-application-logic
 Tests for `django-application-logic` external API.
 """
 
+import mock
 from django.test import TestCase
 
 from application_logic import core, exceptions
@@ -20,14 +21,6 @@ def create_validator(should_raise=False, return_value=None):
             raise exceptions.ServiceException("Test exception")
         return return_value
     return func
-
-
-def create_validated_func(validation_func_raise=False, validator_raise=False):
-    @core.validated_by(create_validator(validation_func_raise))
-    def wrapper(*args, **kwargs):
-        if validator_raise:
-            raise exceptions.ServiceException
-    return wrapper
 
 
 class TestPermissionResult(TestCase):
@@ -101,13 +94,17 @@ class TestValidator(TestCase):
 
 class TestValidatedBy(TestCase):
 
+    def setUp(self):
+        self.mock_validator = mock.MagicMock()
+        self.validated_func = mock.MagicMock()
+        self.decorated_validated_func = core.validated_by(self.mock_validator)(self.validated_func)
+
     def test_validated_by_swallows_validate_parameter(self):
-        mock_validator = lambda raise_exception: None
+        self.decorated_validated_func()
+        self.validated_func.assert_called_with()
 
-        @core.validated_by(mock_validator)
-        def func_without_args():
-            return True
+        self.decorated_validated_func(validate=True)
+        self.validated_func.assert_called_with()
 
-        self.assertTrue(func_without_args())
-        self.assertTrue(func_without_args(validate=True))
-        self.assertTrue(func_without_args(validate=False))
+        self.decorated_validated_func(validate=True)
+        self.validated_func.assert_called_with()

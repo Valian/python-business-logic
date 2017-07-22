@@ -1,4 +1,4 @@
-import mock
+
 from django.test import TestCase
 
 from application_logic import errors, exceptions
@@ -37,5 +37,5 @@ class TestErrorsAPI(ApplicationLogicTestMixin, TestCase):
         )
 
     def test_raising_exception_works_as_intended(self):
-        with self.shouldRaiseErrorCode(TestErrors.INVALID_ACTION):
+        with self.shouldRaiseException(TestErrors.INVALID_ACTION):
             raise TestErrors.INVALID_ACTION

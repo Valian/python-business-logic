@@ -32,19 +32,19 @@ def create_validator_func(validation_func_raise=False, validator_raise=False):
 class TestPermissionResult(TestCase):
 
     def test_permission_result_coercible_to_bool(self):
-        result_success = core.PermissionResult(success=True)
-        result_failure = core.PermissionResult(success=False)
+        result_success = core.ValidationResult(success=True)
+        result_failure = core.ValidationResult(success=False)
         self.assertTrue(result_success)
         self.assertFalse(result_failure)
 
     def test_permission_result_delegates_errors_and_error_code(self):
         exception = exceptions.ServiceException("test", error_code="CODE", errors=object())
-        result = core.PermissionResult(success=False, error=exception)
+        result = core.ValidationResult(success=False, error=exception)
         self.assertEqual(result.error_code, exception.error_code)
         self.assertEqual(result.errors, exception.errors)
 
     def test_permission_result_repr(self):
-        result_success = core.PermissionResult(success=True)
+        result_success = core.ValidationResult(success=True)
         self.assertEqual(
             repr(result_success),
             u'<PermissionResult success=True error=None>')
@@ -63,9 +63,9 @@ class TestDjangoApplicationValidation(TestCase):
         success1 = success_func(raise_exception=False)
         success2 = success_func(raise_exception=True)
         failure1 = failure_func(raise_exception=False)
-        self.assertIsInstance(success1, core.PermissionResult)
-        self.assertIsInstance(success2, core.PermissionResult)
-        self.assertIsInstance(failure1, core.PermissionResult)
+        self.assertIsInstance(success1, core.ValidationResult)
+        self.assertIsInstance(success2, core.ValidationResult)
+        self.assertIsInstance(failure1, core.ValidationResult)
         self.assertTrue(success1)
         self.assertTrue(success2)
         self.assertEqual(success1, success2)

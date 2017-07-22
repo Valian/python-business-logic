@@ -119,3 +119,8 @@ class TestValidatedBy(TestCase):
     def test_validate_false_skips_vaidator_entirely(self):
         self.decorated_validated_func(validate=False)
         self.assertFalse(self.mock_validator.called)
+
+    def test_other_parameters_are_passed_to_both_func_and_validator(self):
+        self.decorated_validated_func(1, 2, a=3, b=4)
+        self.mock_validator.assert_called_with(1, 2, a=3, b=4, raise_exception=True)
+        self.validated_func.assert_called_with(1, 2, a=3, b=4)

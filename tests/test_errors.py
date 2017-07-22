@@ -19,3 +19,9 @@ class TestErrorsAPI(TestCase):
         self.assertEqual(TestErrors.generic_error.error_code, 'generic_error')
         self.assertEqual(TestErrors.NO_PERMISSION.error_code, 'NO_PERMISSION')
         self.assertEqual(TestErrors.INVALID_ACTION.error_code, 'INVALID_ACTION')
+
+    def test_each_errors_receives_other_errors_in_registry(self):
+        self.assertEqual(TestErrors._errors, TestErrors.generic_error.errors)
+        self.assertEqual(TestErrors._errors, TestErrors.NO_PERMISSION.errors)
+        self.assertEqual(TestErrors._errors, TestErrors.INVALID_ACTION.errors)
+

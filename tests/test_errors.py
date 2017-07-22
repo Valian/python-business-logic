@@ -2,6 +2,7 @@ import mock
 from django.test import TestCase
 
 from application_logic import errors, exceptions
+from application_logic.tests import ApplicationLogicTestMixin
 
 
 class TestErrors(errors.ServicesErrors):
@@ -13,7 +14,7 @@ class TestErrors(errors.ServicesErrors):
         "This action is permitted just because :)")
 
 
-class TestErrorsAPI(TestCase):
+class TestErrorsAPI(ApplicationLogicTestMixin, TestCase):
 
     def test_service_errors_magically_receives_error_codes(self):
         self.assertEqual(TestErrors.generic_error.error_code, 'generic_error')
@@ -34,3 +35,7 @@ class TestErrorsAPI(TestCase):
                 'generic_error': TestErrors.generic_error,
             }
         )
+
+    def test_raising_exception_works_as_intended(self):
+        with self.shouldRaiseErrorCode(TestErrors.INVALID_ACTION):
+            raise TestErrors.INVALID_ACTION

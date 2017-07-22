@@ -14,15 +14,6 @@ from django.test import TestCase
 from application_logic import core, exceptions
 
 
-def create_validator(should_raise=False, return_value=None):
-    @core.validator
-    def func(*args, **kwargs):
-        if should_raise:
-            raise exceptions.ServiceException("Test exception")
-        return return_value
-    return func
-
-
 class TestPermissionResult(TestCase):
 
     def test_permission_result_coercible_to_bool(self):
@@ -46,16 +37,24 @@ class TestPermissionResult(TestCase):
 
 class TestValidator(TestCase):
 
+    def setUp(self):
+        self.mock_validator = mock.MagicMock()
+        self.decorated_validator = core.validator(self.mock_validator)
+
     def test_validator_raises_exception(self):
-        func = create_validator(should_raise=True)
-        self.assertRaises(exceptions.ServiceException, lambda: func())
-        self.assertRaises(exceptions.ServiceException, lambda: func(raise_exception=True))
+        self.mock_validator.side_effect = exceptions.ServiceException()
+        self.assertRaises(
+            exceptions.ServiceException,
+            lambda: self.decorated_validator())
+        self.assertRaises(
+            exceptions.ServiceException,
+            lambda: self.decorated_validator(raise_exception=True))
 
     def test_passed_validator_returns_success_validation_result(self):
-        success_func = create_validator(should_raise=False)
+        self.mock_validator.return_value = None
         # when validator passes, raise_exception parameter shouldn't make any difference
-        success1 = success_func(raise_exception=False)
-        success2 = success_func(raise_exception=True)
+        success1 = self.decorated_validator(raise_exception=False)
+        success2 = self.decorated_validator(raise_exception=True)
         self.assertIsInstance(success1, core.ValidationResult)
         self.assertIsInstance(success2, core.ValidationResult)
         self.assertTrue(success1)
@@ -63,18 +62,20 @@ class TestValidator(TestCase):
         self.assertEqual(success1, success2)
 
     def test_validator_returns_false_permission_when_exception_raised_and_caught(self):
-        failure_func = create_validator(should_raise=True)
-        failure1 = failure_func(raise_exception=False)
+        self.mock_validator.side_effect = exceptions.ServiceException()
+        failure1 = self.decorated_validator(raise_exception=False)
         self.assertIsInstance(failure1, core.ValidationResult)
         self.assertFalse(failure1)
 
     def test_generic_services_exception_is_raised_when_validator_return_false(self):
-        func = create_validator(return_value=False)
-        self.assertRaises(core.ServiceException, lambda: func(raise_exception=True))
+        self.mock_validator.side_effect = exceptions.ServiceException()
+        self.assertRaises(
+            core.ServiceException,
+            lambda: self.decorated_validator(raise_exception=True))
 
     def test_returned_failure_contains_exception(self):
-        func = create_validator(should_raise=True)
-        result = func(raise_exception=False)
+        self.mock_validator.side_effect = exceptions.ServiceException()
+        result = self.decorated_validator(raise_exception=False)
         self.assertFalse(result)
         self.assertFalse(result.success)
         self.assertIsInstance(result.error, exceptions.ServiceException)
@@ -83,13 +84,18 @@ class TestValidator(TestCase):
         self.assertIsNone(result.error_code)
 
     def test_raise_exception_argument_is_swallowed(self):
-        @core.validator
-        def func_without_args():
-            return True
+        self.decorated_validator()
+        self.mock_validator.assert_called_with()
 
-        self.assertTrue(func_without_args())
-        self.assertTrue(func_without_args(raise_exception=False))
-        self.assertTrue(func_without_args(raise_exception=True))
+        self.decorated_validator(raise_exception=False)
+        self.mock_validator.assert_called_with()
+
+        self.decorated_validator(raise_exception=True)
+        self.mock_validator.assert_called_with()
+
+    def test_other_args_are_passed_unchanged(self):
+        self.decorated_validator(1, 2, a=3, b=4)
+        self.mock_validator.assert_called_with(1, 2, a=3, b=4)
 
 
 class TestValidatedBy(TestCase):

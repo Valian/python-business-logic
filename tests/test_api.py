@@ -124,3 +124,7 @@ class TestValidatedBy(TestCase):
         self.decorated_validated_func(1, 2, a=3, b=4)
         self.mock_validator.assert_called_with(1, 2, a=3, b=4, raise_exception=True)
         self.validated_func.assert_called_with(1, 2, a=3, b=4)
+
+    def test_exception_from_validator_is_raised(self):
+        self.mock_validator.side_effect = exceptions.ServiceException("Fail!")
+        self.assertRaises(exceptions.ServiceException, self.mock_validator)

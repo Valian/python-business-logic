@@ -108,3 +108,14 @@ class TestValidatedBy(TestCase):
 
         self.decorated_validated_func(validate=True)
         self.validated_func.assert_called_with()
+
+    def test_validate_true_calls_validator_with_raise_true(self):
+        self.decorated_validated_func(validate=True)
+        self.mock_validator.assert_called_with(raise_exception=True)
+
+        self.decorated_validated_func()
+        self.mock_validator.assert_called_with(raise_exception=True)
+
+    def test_validate_false_skips_vaidator_entirely(self):
+        self.decorated_validated_func(validate=False)
+        self.assertFalse(self.mock_validator.called)

@@ -1,4 +1,4 @@
-from django_application_logic.core import validator, validated_by
+from application_logic.core import validator, validated_by
 
 
 @validator

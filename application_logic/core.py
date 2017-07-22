@@ -1,6 +1,6 @@
 import functools
 
-from django_application_logic.exceptions import ServiceException
+from application_logic.exceptions import ServiceException
 
 
 def validated_by(validation_func):

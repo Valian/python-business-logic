@@ -1,4 +1,4 @@
-from django_application_logic import exceptions
+from application_logic import exceptions
 from six import with_metaclass
 
 errors_registry = type('Errors', (), {})  # we setattr here all found errors

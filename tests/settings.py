@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sites",
-    "django_application_logic",
+    "application_logic",
 ]
 
 SITE_ID = 1

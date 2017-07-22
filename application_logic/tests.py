@@ -1,4 +1,4 @@
-from django_application_logic.exceptions import InvalidOperationException, OperationNotPermittedException
+from application_logic.exceptions import InvalidOperationException, OperationNotPermittedException
 
 
 class shouldRaiseErrorCode(object):

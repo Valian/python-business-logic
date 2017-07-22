@@ -8,7 +8,7 @@ To use Django Application Logic in a project, add it to your `INSTALLED_APPS`:
 
     INSTALLED_APPS = (
         ...
-        'django_application_logic.apps.DjangoApplicationLogicConfig',
+        'application_logic.apps.DjangoApplicationLogicConfig',
         ...
     )
 
@@ -16,11 +16,11 @@ Add Django Application Logic's URL patterns:
 
 .. code-block:: python
 
-    from django_application_logic import urls as django_application_logic_urls
+    from application_logic import urls as application_logic_urls
 
 
     urlpatterns = [
         ...
-        url(r'^', include(django_application_logic_urls)),
+        url(r'^', include(application_logic_urls)),
         ...
     ]

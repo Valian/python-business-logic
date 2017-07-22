@@ -10,7 +10,7 @@ Tests for `django-application-logic` external API.
 
 from django.test import TestCase
 
-from django_application_logic import core, exceptions
+from application_logic import core, exceptions
 
 
 def create_validator(should_raise=False, return_value=None):

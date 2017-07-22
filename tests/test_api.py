@@ -14,7 +14,7 @@ from django_application_logic import core, exceptions
 
 
 def create_validation_func(should_raise=False):
-    @core.validation_func
+    @core.validator
     def func(*args, **kwargs):
         if should_raise:
             raise exceptions.ServiceException("Test exception")
@@ -22,7 +22,7 @@ def create_validation_func(should_raise=False):
 
 
 def create_validator_func(validation_func_raise=False, validator_raise=False):
-    @core.validator(create_validation_func(validation_func_raise))
+    @core.validated_by(create_validation_func(validation_func_raise))
     def wrapper(*args, **kwargs):
         if validator_raise:
             raise exceptions.ServiceException
@@ -82,7 +82,7 @@ class TestDjangoApplicationValidation(TestCase):
         self.assertIsNone(result.error_code)
 
     def test_raise_exception_argument_is_swallowed(self):
-        @core.validation_func
+        @core.validator
         def func_without_args():
             return True
 

@@ -30,7 +30,7 @@ class PermissionResult(object):
         return u'<PermissionResult success={} error={}>'.format(self.success, self.error)
 
 
-def validator(validation_func):
+def validated_by(validation_func):
     def decorator(f):
         @functools.wraps(f)
         def wrapper(*args, **kwargs):
@@ -43,7 +43,7 @@ def validator(validation_func):
     return decorator
 
 
-def validation_func(f):
+def validator(f):
     @functools.wraps(f)
     def wrapper(*args, **kwargs):
         raise_exception = kwargs.pop('raise_exception', True)

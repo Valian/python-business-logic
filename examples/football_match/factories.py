@@ -33,7 +33,7 @@ class TeamFactory(factory.Factory):
     name = factory.Faker('word')
 
     @factory.post_generation
-    def players(self, create, extracted, count=0, **kwargs):
+    def players(self, create, extracted, count=4, **kwargs):
         if not extracted and count > 0:
             self.players = [PlayerFactory(**kwargs) for _ in range(count)]
 

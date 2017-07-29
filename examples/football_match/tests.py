@@ -32,9 +32,8 @@ class TestFactories(TestCase):
         self.assertTrue(all(isinstance(p, models.Player) for p in team.players))
 
 
-class MatchLogicTests(BusinessLogicTestMixin, TestCase):
+class StartMatchLogicTests(BusinessLogicTestMixin, TestCase):
 
-    # starting match
     def test_not_referee_cant_start_match(self):
         person = factories.PersonFactory()
         match = factories.MatchFactory()
@@ -61,7 +60,9 @@ class MatchLogicTests(BusinessLogicTestMixin, TestCase):
         logic.start_match(referee, match)
         self.assertEqual(match.status, match.STARTED)
 
-    # finishing match
+
+class FinishMatchLogicTests(BusinessLogicTestMixin, TestCase):
+
     def test_not_referee_cant_finish_match(self):
         person = factories.PersonFactory()
         match = factories.MatchFactory(status=models.Match.STARTED)
@@ -112,4 +113,3 @@ class MatchLogicTests(BusinessLogicTestMixin, TestCase):
             self.assertEqual(player.cash, reward / 2)
         for player in match.second_team.players:
             self.assertEqual(player.cash, reward / 2)
-

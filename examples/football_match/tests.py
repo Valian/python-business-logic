@@ -113,3 +113,36 @@ class FinishMatchLogicTests(BusinessLogicTestMixin, TestCase):
             self.assertEqual(player.cash, reward / 2)
         for player in match.second_team.players:
             self.assertEqual(player.cash, reward / 2)
+
+
+class ShootGoalLogic(BusinessLogicTestMixin, TestCase):
+
+    def test_normal_person_cant_shoot_goal(self):
+        person = factories.PersonFactory()
+        match = factories.MatchFactory(status=models.Match.STARTED)
+        with self.shouldRaiseException(MatchErrors.CANT_SHOOT_GOAL_NOT_PLAYER):
+            logic.can_shoot_goal(person, match)
+
+    def test_referee_cant_shoot_goal(self):
+        referee = factories.RefereeFactory()
+        match = factories.MatchFactory(status=models.Match.STARTED)
+        with self.shouldRaiseException(MatchErrors.CANT_SHOOT_GOAL_NOT_PLAYER):
+            logic.can_shoot_goal(referee, match)
+
+    def test_cant_shoot_goal_if_match_not_in_progress(self):
+        match = factories.MatchFactory(status=models.Match.BEFORE_START)
+        with self.shouldRaiseException(MatchErrors.CANT_SHOOT_GOAL_MATCH_NOT_STARTED):
+            logic.can_shoot_goal(match.first_team.players[0], match)
+
+    def test_cant_shoot_goal_if_not_in_any_team(self):
+        player = factories.PlayerFactory()
+        match = factories.MatchFactory(status=models.Match.STARTED)
+        with self.shouldRaiseException(MatchErrors.CANT_SHOOT_GOAL_NOT_IN_TEAMS):
+            logic.can_shoot_goal(player, match)
+
+    def test_shoot_goal(self):
+        match = factories.MatchFactory(status=models.Match.STARTED)
+        player = match.first_team.players[0]
+        logic.shoot_goal(player, match)
+        self.assertEqual(player.total_goals, 1)
+        self.assertEqual(match.first_team.goals, 1)

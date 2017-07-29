@@ -3,6 +3,10 @@ from business_logic.exceptions import InvalidOperationException, NotPermittedExc
 
 
 class MatchErrors(LogicErrors):
+    CANT_SHOOT_GOAL_NOT_IN_TEAMS = InvalidOperationException(u'Player is not taking part in match')
+    CANT_SHOOT_GOAL_MATCH_NOT_STARTED = InvalidOperationException(u'Match not started yet!')
+    CANT_SHOOT_GOAL_NOT_PLAYER = NotPermittedException(u'Only player can shoot goals')
+
     CANT_FINISH_NOT_STARTED = InvalidOperationException(u'Only started match can be finished')
     CANT_FINISH_NOT_REFEREE = NotPermittedException(u'Only referee can finish match')
 

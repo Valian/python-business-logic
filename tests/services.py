@@ -1,4 +1,4 @@
-from application_logic.core import validator, validated_by
+from business_logic.core import validator, validated_by
 
 
 @validator

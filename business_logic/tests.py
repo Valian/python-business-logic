@@ -13,6 +13,6 @@ class shouldRaiseException(object):
         return True
 
 
-class ApplicationLogicTestMixin(object):
+class BusinessLogicTestMixin(object):
 
     shouldRaiseException = shouldRaiseException

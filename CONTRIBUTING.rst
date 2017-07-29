@@ -77,7 +77,7 @@ Ready to contribute? Here's how to set up `python-business-logic` for local deve
 5. When you're done making changes, check that your changes pass flake8 and the
    tests, including testing other Python versions with tox::
 
-        $ flake8 application_logic tests
+        $ flake8 business_logic tests
         $ python setup.py test
         $ tox
 
@@ -109,4 +109,4 @@ Tips
 
 To run a subset of tests::
 
-    $ python -m unittest tests.test_application_logic
+    $ python -m unittest tests.test_business_logic

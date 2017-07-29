@@ -11,7 +11,7 @@ Tests for `python-business-logic` external API.
 import mock
 from unittest import TestCase
 
-from application_logic import core, exceptions
+from business_logic import core, exceptions
 
 
 class TestPermissionResult(TestCase):

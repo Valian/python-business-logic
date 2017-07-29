@@ -1,11 +1,11 @@
-from application_logic import exceptions
+from business_logic import exceptions
 from six import with_metaclass
 
 
 class ServicesErrorsMetaclass(type):
     """
     Metaclass automatically creating errors registry and setting error code to attribute name.
-    You should subclass this and set all possible application logic exceptions.
+    You should subclass this and set all possible business logic exceptions.
     """
     def __init__(cls, name, bases, dict):
         super(ServicesErrorsMetaclass, cls).__init__(name, bases, dict)

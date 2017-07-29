@@ -9,6 +9,7 @@ class PersonFactory(factory.Factory):
         model = models.Person
 
     name = factory.Faker('name')
+    cash = 0
 
 
 class RefereeFactory(PersonFactory):
@@ -31,6 +32,7 @@ class TeamFactory(factory.Factory):
         model = models.Team
 
     name = factory.Faker('word')
+    goals = 0
 
     @factory.post_generation
     def players(self, create, extracted, count=4, **kwargs):

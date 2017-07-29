@@ -1,6 +1,7 @@
 class Person(object):
-    def __init__(self, name):
+    def __init__(self, name, cash=0):
         self.name = name
+        self.cash = cash
 
     @property
     def is_referee(self):
@@ -15,16 +16,16 @@ class Referee(Person):
 
 
 class Player(Person):
-    def __init__(self, name, total_goals=0):
-        super(Player, self).__init__(name)
+    def __init__(self, name, cash=0, total_goals=0):
+        super(Player, self).__init__(name, cash)
         self.total_goals = total_goals
 
 
 class Team(object):
-    def __init__(self, name, players=None):
+    def __init__(self, name, players=None, goals=0):
         self.name = name
         self.players = players or []
-        self.goals = 0
+        self.goals = goals
 
 
 class Match(object):

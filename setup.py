@@ -50,7 +50,7 @@ setup(
     description="""Python package that makes creating complicated business logic easy""",
     long_description=readme + '\n\n' + history,
     author='Jakub Skałecki',
-    author_email='you@example.com',
+    author_email='jakub.skalecki@gmail.com',
     url='https://github.com/Valian/python-business-logic',
     packages=[
         'business_logic',

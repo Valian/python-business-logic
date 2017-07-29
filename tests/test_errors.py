@@ -5,12 +5,12 @@ from business_logic import errors, exceptions
 from business_logic.tests import BusinessLogicTestMixin
 
 
-class TestErrors(errors.ServicesErrors):
+class TestErrors(errors.LogicErrors):
     INVALID_ACTION = exceptions.InvalidOperationException(
         "This action is permitted by business logic")
     NO_PERMISSION = exceptions.NotPermittedException(
         "This action is permitted because not sufficient permissions")
-    generic_error = exceptions.ServiceException(
+    generic_error = exceptions.LogicException(
         "This action is permitted just because :)")
 
 

@@ -36,7 +36,7 @@ Core element of library are validators, functions that are created to ensure log
    ... def can_remove_user(by_user, user):
    ...     return by_user.id == user.id or by_user.is_admin
 
-With validators you can decorate actions performed that are that validation::
+With validators you can decorate actions performed that will be checked against that validator::
 
     >>> from business_logic.core import validated_by
 
@@ -45,7 +45,7 @@ With validators you can decorate actions performed that are that validation::
     ...     user.delete()
 
 
-Now every call to `remove_user` will require that validator `can_remove_user` validates::
+Now every call to `remove_user` will require that validator `can_remove_user` passes::
 
     >>> import collections
     >>> User = collections.namedtuple('User', ['id', 'is_admin'])

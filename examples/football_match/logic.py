@@ -1,11 +1,17 @@
 from business_logic import validator, validated_by
 
+import models
 from errors import MatchErrors
 
 
 @validator
 def can_shoot_goal(person, match):
-    pass
+    if not isinstance(person, models.Player):
+        raise MatchErrors.CANT_SHOOT_GOAL_NOT_PLAYER
+    if not match.status == match.STARTED:
+        raise MatchErrors.CANT_SHOOT_GOAL_MATCH_NOT_STARTED
+    if person not in match.first_team.players + match.second_team.players:
+        raise MatchErrors.CANT_SHOOT_GOAL_NOT_IN_TEAMS
 
 
 @validator
@@ -28,7 +34,11 @@ def can_finish_match(person, match):
 
 @validated_by(can_shoot_goal)
 def shoot_goal(person, match):
-    pass
+    person.total_goals += 1
+    if person in match.first_team.players:
+        match.first_team.goals += 1
+    else:
+        match.second_team.goals += 1
 
 
 @validated_by(can_start_match)

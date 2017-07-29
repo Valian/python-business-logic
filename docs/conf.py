@@ -46,7 +46,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Django Application Logic'
+project = u'Python Business Logic'
 copyright = u'2017, Jakub Skałecki'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -173,7 +173,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'django-application-logicdoc'
+htmlhelp_basename = 'python-business-logicdoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -192,7 +192,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'django-application-logic.tex', u'Django Application Logic Documentation',
+  ('index', 'python-business-logic.tex', u'Python Business Logic Documentation',
    u'Jakub Skałecki', 'manual'),
 ]
 
@@ -222,7 +222,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'django-application-logic', u'Django Application Logic Documentation',
+    ('index', 'python-business-logic', u'Python Business Logic Documentation',
      [u'Jakub Skałecki'], 1)
 ]
 
@@ -236,8 +236,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'django-application-logic', u'Django Application Logic Documentation',
-   u'Jakub Skałecki', 'django-application-logic', 'One line description of project.',
+  ('index', 'python-business-logic', u'Python Business Logic Documentation',
+   u'Jakub Skałecki', 'python-business-logic', 'One line description of project.',
    'Miscellaneous'),
 ]
 

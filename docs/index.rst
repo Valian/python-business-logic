@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Django Application Logic's documentation!
+Welcome to Python Business Logic's documentation!
 =================================================================
 
 Contents:

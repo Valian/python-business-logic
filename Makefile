@@ -43,7 +43,7 @@ coverage: ## check code coverage quickly with the default Python
 	xdg-open htmlcov/index.html
 
 docs: ## generate Sphinx HTML documentation, including API docs
-	rm -f docs/django-application-logic.rst
+	rm -f docs/python-business-logic.rst
 	rm -f docs/modules.rst
 	sphinx-apidoc -o docs/ application_logic
 	$(MAKE) -C docs clean

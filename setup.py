@@ -45,13 +45,13 @@ readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
-    name='django-application-logic',
+    name='python-business-logic',
     version=version,
-    description="""Django package that makes creating complicated business logic easy""",
+    description="""Python package that makes creating complicated business logic easy""",
     long_description=readme + '\n\n' + history,
     author='Jakub Skałecki',
     author_email='you@example.com',
-    url='https://github.com/Valian/django-application-logic',
+    url='https://github.com/Valian/python-business-logic',
     packages=[
         'application_logic',
     ],
@@ -59,13 +59,9 @@ setup(
     install_requires=[],
     license="MIT",
     zip_safe=False,
-    keywords='django-application-logic',
+    keywords='python-business-logic',
     classifiers=[
         'Development Status :: 3 - Alpha',
-        'Framework :: Django',
-        'Framework :: Django :: 1.8',
-        'Framework :: Django :: 1.9',
-        'Framework :: Django :: 1.10',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
@@ -75,5 +71,6 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
 )

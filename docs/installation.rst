@@ -4,9 +4,9 @@ Installation
 
 At the command line::
 
-    $ easy_install django-application-logic
+    $ easy_install python-business-logic
 
 Or, if you have virtualenvwrapper installed::
 
-    $ mkvirtualenv django-application-logic
-    $ pip install django-application-logic
+    $ mkvirtualenv python-business-logic
+    $ pip install python-business-logic

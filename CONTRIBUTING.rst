@@ -13,7 +13,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/Valian/django-application-logic/issues.
+Report bugs at https://github.com/Valian/python-business-logic/issues.
 
 If you are reporting a bug, please include:
 
@@ -36,14 +36,14 @@ is open to whoever wants to implement it.
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-Django Application Logic could always use more documentation, whether as part of the
-official Django Application Logic docs, in docstrings, or even on the web in blog posts,
+Python Business Logic could always use more documentation, whether as part of the
+official Python Business Logic docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://github.com/Valian/django-application-logic/issues.
+The best way to send feedback is to file an issue at https://github.com/Valian/python-business-logic/issues.
 
 If you are proposing a feature:
 
@@ -55,17 +55,17 @@ If you are proposing a feature:
 Get Started!
 ------------
 
-Ready to contribute? Here's how to set up `django-application-logic` for local development.
+Ready to contribute? Here's how to set up `python-business-logic` for local development.
 
-1. Fork the `django-application-logic` repo on GitHub.
+1. Fork the `python-business-logic` repo on GitHub.
 2. Clone your fork locally::
 
-    $ git clone git@github.com:your_name_here/django-application-logic.git
+    $ git clone git@github.com:your_name_here/python-business-logic.git
 
 3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
 
-    $ mkvirtualenv django-application-logic
-    $ cd django-application-logic/
+    $ mkvirtualenv python-business-logic
+    $ cd python-business-logic/
     $ python setup.py develop
 
 4. Create a branch for local development::
@@ -101,7 +101,7 @@ Before you submit a pull request, check that it meets these guidelines:
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
 3. The pull request should work for Python 2.6, 2.7, and 3.3, and for PyPy. Check
-   https://travis-ci.org/Valian/django-application-logic/pull_requests
+   https://travis-ci.org/Valian/python-business-logic/pull_requests
    and make sure that the tests pass for all supported Python versions.
 
 Tips

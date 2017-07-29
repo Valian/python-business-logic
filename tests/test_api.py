@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-test_django-application-logic
+test_python-business-logic
 ------------
 
-Tests for `django-application-logic` external API.
+Tests for `python-business-logic` external API.
 """
 
 import mock

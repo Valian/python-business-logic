@@ -20,7 +20,10 @@ def can_start_match(person, match):
 
 @validator
 def can_finish_match(person, match):
-    pass
+    if match.status != match.STARTED:
+        raise MatchErrors.CANT_FINISH_NOT_STARTED
+    if not person.is_referee:
+        raise MatchErrors.CANT_FINISH_NOT_REFEREE
 
 
 @validated_by(can_shoot_goal)
@@ -30,12 +33,29 @@ def shoot_goal(person, match):
 
 @validated_by(can_start_match)
 def start_match(person, match):
+    match.status = match.STARTED
     # side effect, like sending emails, logging etc should live here
     print(u"{} started match!".format(person.name))
-    match.status = match.STARTED
 
 
 @validated_by(can_finish_match)
 def finish_match(person, match):
-    pass
+    match.status = match.FINISHED
+    first_score = match.first_team.goals
+    second_score = match.second_team.goals
+    if first_score == second_score:
+        first_team_reward = match.reward / 2
+        second_team_reward = match.reward / 2
+    else:
+        first_team_won = first_score > second_score
+        first_team_reward = match.reward if first_team_won else 0
+        second_team_reward = match.reward if not first_team_won else 0
 
+    for player in match.first_team.players:
+        player.cash += first_team_reward
+
+    for player in match.second_team.players:
+        player.cash += second_team_reward
+
+    referee_salary = 0.5 * match.reward
+    person.cash += referee_salary

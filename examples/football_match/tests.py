@@ -34,6 +34,7 @@ class TestFactories(TestCase):
 
 class MatchLogicTests(BusinessLogicTestMixin, TestCase):
 
+    # starting match
     def test_not_referee_cant_start_match(self):
         person = factories.PersonFactory()
         match = factories.MatchFactory()
@@ -59,3 +60,56 @@ class MatchLogicTests(BusinessLogicTestMixin, TestCase):
         match = factories.MatchFactory(status=models.Match.BEFORE_START)
         logic.start_match(referee, match)
         self.assertEqual(match.status, match.STARTED)
+
+    # finishing match
+    def test_not_referee_cant_finish_match(self):
+        person = factories.PersonFactory()
+        match = factories.MatchFactory(status=models.Match.STARTED)
+        with self.shouldRaiseException(MatchErrors.CANT_FINISH_NOT_REFEREE):
+            logic.can_finish_match(person, match)
+
+    def test_cant_finish_match_if_not_started(self):
+        referee = factories.RefereeFactory()
+        match = factories.MatchFactory(status=models.Match.BEFORE_START)
+        with self.shouldRaiseException(MatchErrors.CANT_FINISH_NOT_STARTED):
+            logic.can_finish_match(referee, match)
+
+    def test_cant_finish_match_if_already_finished(self):
+        referee = factories.RefereeFactory()
+        match = factories.MatchFactory(status=models.Match.FINISHED)
+        with self.shouldRaiseException(MatchErrors.CANT_FINISH_NOT_STARTED):
+            logic.can_finish_match(referee, match)
+
+    def test_finish_match_gives_reward_to_winning_team(self):
+        referee = factories.RefereeFactory()
+        reward = 1000
+        match = factories.MatchFactory(
+            first_team__goals=1,
+            second_team__goals=0,
+            status=models.Match.STARTED,
+            reward=reward)
+        logic.finish_match(referee, match)
+        self.assertEqual(match.status, match.FINISHED)
+        # referee takes 50% of winning players reward as salary
+        self.assertEqual(referee.cash, 0.5 * reward)
+        for player in match.first_team.players:
+            self.assertEqual(player.cash, reward)
+        for player in match.second_team.players:
+            self.assertEqual(player.cash, 0)
+
+    def test_draw_divides_reward_between_players(self):
+        referee = factories.RefereeFactory()
+        reward = 1000
+        match = factories.MatchFactory(
+            first_team__goals=3,
+            second_team__goals=3,
+            status=models.Match.STARTED,
+            reward=reward)
+        logic.finish_match(referee, match)
+        self.assertEqual(match.status, match.FINISHED)
+        self.assertEqual(referee.cash, 0.5 * reward)
+        for player in match.first_team.players:
+            self.assertEqual(player.cash, reward / 2)
+        for player in match.second_team.players:
+            self.assertEqual(player.cash, reward / 2)
+

@@ -18,8 +18,8 @@ Documentation
 
 The full documentation is at https://python-business-logic.readthedocs.io. (WIP)
 
-Quickstart
-----------
+Installation
+------------
 
 Install Python Business Logic::
 

@@ -1,6 +1,3 @@
-from application_logic.exceptions import ServiceException
-
-
 class shouldRaiseException(object):
     def __init__(self, error):
         self.error = error
@@ -16,6 +13,6 @@ class shouldRaiseException(object):
         return True
 
 
-class ApplicationLogicTestMixin(object):
+class BusinessLogicTestMixin(object):
 
     shouldRaiseException = shouldRaiseException

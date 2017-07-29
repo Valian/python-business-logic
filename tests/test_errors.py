@@ -1,8 +1,8 @@
 
 from unittest import TestCase
 
-from application_logic import errors, exceptions
-from application_logic.tests import ApplicationLogicTestMixin
+from business_logic import errors, exceptions
+from business_logic.tests import BusinessLogicTestMixin
 
 
 class TestErrors(errors.ServicesErrors):
@@ -14,7 +14,7 @@ class TestErrors(errors.ServicesErrors):
         "This action is permitted just because :)")
 
 
-class TestErrorsAPI(ApplicationLogicTestMixin, TestCase):
+class TestErrorsAPI(BusinessLogicTestMixin, TestCase):
 
     def test_service_errors_magically_receives_error_codes(self):
         self.assertEqual(TestErrors.generic_error.error_code, 'generic_error')

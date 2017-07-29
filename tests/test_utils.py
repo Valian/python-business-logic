@@ -1,9 +1,9 @@
 from unittest import TestCase
 
-from application_logic.tests import ApplicationLogicTestMixin
+from business_logic.tests import BusinessLogicTestMixin
 
 
-class TestUtilsTest(ApplicationLogicTestMixin, TestCase):
+class TestUtilsTest(BusinessLogicTestMixin, TestCase):
 
     def test_not_raising_exceptions_fails(self):
         try:

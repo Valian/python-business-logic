@@ -30,6 +30,8 @@ class TeamFactory(factory.Factory):
     class Meta:
         model = models.Team
 
+    name = factory.Faker('word')
+
     @factory.post_generation
     def players(self, create, extracted, count=0, **kwargs):
         if not extracted and count > 0:

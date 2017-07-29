@@ -15,14 +15,15 @@ class Referee(Person):
 
 
 class Player(Person):
-    def __init__(self, name, total_goals):
+    def __init__(self, name, total_goals=0):
         super(Player, self).__init__(name)
         self.total_goals = total_goals
 
 
 class Team(object):
-    def __init__(self, players):
-        self.players = players
+    def __init__(self, name, players=None):
+        self.name = name
+        self.players = players or []
         self.goals = 0
 
 

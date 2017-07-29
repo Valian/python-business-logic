@@ -1,5 +1,5 @@
 
-from django.test import TestCase
+from unittest import TestCase
 
 from application_logic import errors, exceptions
 from application_logic.tests import ApplicationLogicTestMixin

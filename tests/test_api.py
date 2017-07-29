@@ -9,7 +9,7 @@ Tests for `django-application-logic` external API.
 """
 
 import mock
-from django.test import TestCase
+from unittest import TestCase
 
 from application_logic import core, exceptions
 

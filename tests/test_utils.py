@@ -1,6 +1,5 @@
-from django.test import TestCase
+from unittest import TestCase
 
-import application_logic.apps  # just for coverage
 from application_logic.tests import ApplicationLogicTestMixin
 
 

@@ -1,6 +1,6 @@
 import factory
 
-import models
+from examples.football_match import models
 
 
 class PersonFactory(factory.Factory):

@@ -4,12 +4,11 @@ import models
 
 
 class PersonFactory(factory.Factory):
+    name = factory.Faker('name')
+    cash = 0
 
     class Meta:
         model = models.Person
-
-    name = factory.Faker('name')
-    cash = 0
 
 
 class RefereeFactory(PersonFactory):
@@ -19,20 +18,18 @@ class RefereeFactory(PersonFactory):
 
 
 class PlayerFactory(PersonFactory):
+    total_goals = 0
 
     class Meta:
         model = models.Player
 
-    total_goals = 0
-
 
 class TeamFactory(factory.Factory):
+    name = factory.Faker('word')
+    goals = 0
 
     class Meta:
         model = models.Team
-
-    name = factory.Faker('word')
-    goals = 0
 
     @factory.post_generation
     def players(self, create, extracted, count=4, **kwargs):
@@ -41,10 +38,9 @@ class TeamFactory(factory.Factory):
 
 
 class MatchFactory(factory.Factory):
-
-    class Meta:
-        model = models.Match
-
     first_team = factory.SubFactory(TeamFactory, players__count=5)
     second_team = factory.SubFactory(TeamFactory, players__count=5)
     reward = 0
+
+    class Meta:
+        model = models.Match

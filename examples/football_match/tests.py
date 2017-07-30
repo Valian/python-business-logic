@@ -2,10 +2,8 @@ from unittest import TestCase
 
 from business_logic.tests import BusinessLogicTestMixin
 
-import factories
-import models
-import logic
-from errors import MatchErrors
+from examples.football_match import factories, models, logic
+from examples.football_match.errors import MatchErrors
 
 
 class TestFactories(TestCase):

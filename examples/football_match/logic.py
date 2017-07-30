@@ -1,7 +1,7 @@
 from business_logic import validator, validated_by
 
-import models
-from errors import MatchErrors
+from examples.football_match import models
+from examples.football_match.errors import MatchErrors
 
 
 @validator
@@ -39,6 +39,7 @@ def shoot_goal(person, match):
         match.first_team.goals += 1
     else:
         match.second_team.goals += 1
+    print(u"Goal was shoot by {}!".format(person.name))
 
 
 @validated_by(can_start_match)
@@ -50,7 +51,12 @@ def start_match(person, match):
 
 @validated_by(can_finish_match)
 def finish_match(person, match):
+    """
+    A bit more complicated function calculating rewards, but I wanted
+    to show that such cases are still perfectly valid
+    """
     match.status = match.FINISHED
+    print(u"{} finished match!\n".format(person.name))
     first_score = match.first_team.goals
     second_score = match.second_team.goals
     if first_score == second_score:
@@ -60,12 +66,16 @@ def finish_match(person, match):
         first_team_won = first_score > second_score
         first_team_reward = match.reward if first_team_won else 0
         second_team_reward = match.reward if not first_team_won else 0
+        match.winner = match.first_team if first_team_won else match.second_team
 
     for player in match.first_team.players:
         player.cash += first_team_reward
+        print(u"{:24} - first team player  - earned {} cash!".format(player.name, first_team_reward))
 
     for player in match.second_team.players:
         player.cash += second_team_reward
+        print(u"{:24} - second team player - earned {} cash!".format(player.name, second_team_reward))
 
-    referee_salary = 0.5 * match.reward
+    referee_salary = int(0.5 * match.reward)
     person.cash += referee_salary
+    print(u"{:24} - referee            - earned {} cash as salary".format(person.name, referee_salary))

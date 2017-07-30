@@ -32,7 +32,7 @@ class Player(Person):
 
 class Team(object):
     def __init__(self, name, players=None, goals=0):
-        self.name = name
+        self.name = name.upper()
         self.players = players or []
         self.goals = goals
 

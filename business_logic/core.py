@@ -92,3 +92,6 @@ class ValidationResult(object):
 
     def __repr__(self):
         return u'<PermissionResult success={} error={}>'.format(self.success, self.error)
+
+    def __str__(self):
+        return str(self.error) if self.error else u''

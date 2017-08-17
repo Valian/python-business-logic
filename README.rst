@@ -62,10 +62,6 @@ Now every call to `remove_user` will require that validator `can_remove_user` pa
 
     >>> remove_user(user=alice, by_user=bob) # doctest: +IGNORE_EXCEPTION_DETAIL
     Traceback (most recent call last):
-      File "<doctest README.rst[8]>", line 1, in <module>
-        remove_user(user=alice, by_user=bob)
-      File "business_logic/core.py", line 23, in wrapper
-        validation_func(raise_exception=True, *args, **kwargs)
       File "business_logic/core.py", line 48, in wrapper
         raise ServiceException("Validation failed!")
     business_logic.exceptions.LogicException: Validation failed!
@@ -80,7 +76,37 @@ You can skip validation using `validate=False`::
 
 ```
 
-t
+Also, if we just want to know if action is possible, just let's run::
+
+```python
+    >>> validation = can_remove_user(user=alice, by_user=bob, raise_exception=False)
+    >>> bool(validation)
+    False
+    >>> validation.error  # it's actual exception
+    LogicException('Validation failed!',)
+
+```
+
+Chaining validators is really easy::
+
+```python
+   >>> @validator
+   ... def can_go_to_party(user):
+   ...     return user.is_admin
+
+   >>> @validator
+   ... def can_eat_cake(user):
+   ...     can_go_to_party(user)
+   ...     return user.id is not None
+
+   >>> can_eat_cake(bob)  # doctest: +IGNORE_EXCEPTION_DETAIL
+   Traceback (most recent call last):
+      File "business_logic/core.py", line 48, in wrapper
+        raise ServiceException("Validation failed!")
+   business_logic.exceptions.LogicException: Validation failed!
+
+```
+
 
 Running Tests
 -------------

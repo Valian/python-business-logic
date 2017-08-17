@@ -30,23 +30,26 @@ Getting Started
 
 Core element of library are validators, functions that are created to ensure logic is correct::
 
+```python
    >>> from business_logic.core import validator
 
    >>> @validator
    ... def can_remove_user(by_user, user):
    ...     return by_user.id == user.id or by_user.is_admin
-
+```
 With validators you can decorate actions performed that will be checked against that validator::
 
+```python
     >>> from business_logic.core import validated_by
 
     >>> @validated_by(can_remove_user)
     ... def remove_user(by_user, user):
     ...     user.delete()
-
+```
 
 Now every call to `remove_user` will require that validator `can_remove_user` passes::
 
+```python
     >>> import collections
     >>> User = collections.namedtuple('User', ['id', 'is_admin'])
     >>> alice = User(1, False)
@@ -61,7 +64,7 @@ Now every call to `remove_user` will require that validator `can_remove_user` pa
       File "business_logic/core.py", line 48, in wrapper
         raise ServiceException("Validation failed!")
     business_logic.exceptions.LogicException: Validation failed!
-
+```
 
 Running Tests
 -------------
@@ -70,5 +73,5 @@ Does the code actually work?
 
 ::
 
-    $ pip install tox
+    $ pip install -r requirements_test.txt
     $ tox

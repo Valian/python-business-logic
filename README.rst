@@ -60,7 +60,7 @@ Now every call to `remove_user` will require that validator `can_remove_user` pa
         validation_func(raise_exception=True, *args, **kwargs)
       File "business_logic/core.py", line 48, in wrapper
         raise ServiceException("Validation failed!")
-    business_logic.exceptions.ServiceException: Validation failed!
+    business_logic.exceptions.LogicException: Validation failed!
 
 
 Running Tests

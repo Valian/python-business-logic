@@ -36,6 +36,7 @@ Core element of library are validators, functions that are created to ensure log
    >>> @validator
    ... def can_remove_user(by_user, user):
    ...     return by_user.id == user.id or by_user.is_admin
+
 ```
 With validators you can decorate actions performed that will be checked against that validator::
 
@@ -44,9 +45,13 @@ With validators you can decorate actions performed that will be checked against 
 
     >>> @validated_by(can_remove_user)
     ... def remove_user(by_user, user):
-    ...     user.delete()
+    ...     print("User #{} removed user #{}".format(by_user.id, user.id))
+    ...     # right now we're just faking this
+    ...     # user.delete()
+
 ```
 
+As you can see, arguments to validator must match those passed to function.
 Now every call to `remove_user` will require that validator `can_remove_user` passes::
 
 ```python
@@ -64,7 +69,18 @@ Now every call to `remove_user` will require that validator `can_remove_user` pa
       File "business_logic/core.py", line 48, in wrapper
         raise ServiceException("Validation failed!")
     business_logic.exceptions.LogicException: Validation failed!
+
 ```
+
+You can skip validation using `validate=False`::
+
+```python
+    >>> remove_user(user=alice, by_user=bob, validate=False)
+    User #2 removed user #1
+
+```
+
+t
 
 Running Tests
 -------------

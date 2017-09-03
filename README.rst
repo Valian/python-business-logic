@@ -109,7 +109,7 @@ Chaining validators is really easy and readable::
    ...     is_old_enough(user, movie)
    ...     # we don't have to return anything, @validator use exceptions
 
-   >>> can_watch_movie(bob, horror)
+   >>> can_watch_movie(bob, horror)  # doctest: +IGNORE_EXCEPTION_DETAIL
    Traceback (most recent call last):
       File "business_logic/core.py", line 48, in wrapper
         raise LogicException("Validation failed!")
@@ -131,7 +131,7 @@ make our own errors!
    ...     if user.age < movie.age_restriction:
    ...          raise AgeRestrictionErrors.CANT_WATCH_MOVIE_TOO_YOUNG
 
-   >>> is_old_enough(bob, horror)
+   >>> is_old_enough(bob, horror)  # doctest: +IGNORE_EXCEPTION_DETAIL
    Traceback (most recent call last):
    business_logic.exceptions.LogicException: User is too young to watch this
 

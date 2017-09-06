@@ -16,6 +16,10 @@ from business_logic import core, exceptions
 
 class TestPermissionResult(TestCase):
 
+    def test_string_representation_equals_to_error(self):
+        result = core.ValidationResult(success=False, error=Exception("Test error"))
+        self.assertEqual(str(result), "Test error")
+
     def test_permission_result_coercible_to_bool(self):
         result_success = core.ValidationResult(success=True)
         result_failure = core.ValidationResult(success=False)

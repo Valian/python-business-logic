@@ -11,13 +11,16 @@ Python Business Logic
 .. image:: https://codecov.io/gh/Valian/python-business-logic/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/Valian/python-business-logic
 
+.. image:: https://readthedocs.org/projects/python-business-logic/badge/?version=latest
+    :target: http://python-business-logic.readthedocs.io
+
 
 Traditionally, most web applications are written using MVC pattern. Python Business Logic helps you to add *Business Layer*, also called *Application Layer*, that is dependent only on models and composed of simple functions. Code written this way is extremely easy to read, test, and use in different scenarios. Package has no dependencies and can be used in any web framework, like Django, Flask, Bottle and others.
 
 Documentation
 -------------
 
-The full documentation is at https://python-business-logic.readthedocs.io. (WIP)
+The full documentation is at https://python-business-logic.readthedocs.io. Still under development. 
 
 Installation
 ------------
@@ -181,7 +184,7 @@ Usage
 -----
 
 When using this package, you should write all your business logic as simple functions, using only
-inputs and Database Layer (for example, `Django ORM or SQLAlchemy`). This way, you can easily test your
+inputs and Database Layer (eg. `Django ORM or SQLAlchemy`). This way, you can easily test your
 logic and use it in any way you like. Convention that I follow is to put all functions inside `logic.py` file or `logic` submodule.
 
 In **views** and **API** calls: Your role is to prepare all required data for business function (from forms, user session etc), call function
@@ -189,10 +192,15 @@ and present results to user. Middleware catching LogicException and, for example
 can improve readability a lot, because no exception handling need to be done in view.
 
 As **management commands**: In Django you can create custom `management command`, that allows you to use cli to perform custom logic.
-Python Business Logic functions works very well with this use case!
+Python Business Logic functions works very well for that use case!
 
 From **external code**: Just import your function and use it. Since there shouldn't be any framework-related
-inputs other than Database Models, usage is really simple. In reality, your business functions form **business API** of your application.
+inputs other than Database Models, usage is really simple. In reality, your business functions form *business API* of your application.
+
+Examples
+--------
+
+For examples how to use this library, look into directory *examples*. Currently there is only one called *Football match*. Most important file there is :code:`logic.py`.
 
 
 Running Tests

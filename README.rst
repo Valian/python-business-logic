@@ -28,19 +28,19 @@ Install Python Business Logic::
 Getting Started
 ---------------
 
-Core element of library are validators, functions that are created to ensure logic is correct::
+Core element of library are validators, functions that are created to ensure logic is correct:
 
 .. code:: python
 
-   >>> from business_logic.core import validator
+    >>> from business_logic.core import validator
 
-   >>> @validator
-   ... def can_watch_movie(user, movie):
-   ...     # some example business logic, it can be as complex as you want
-   ...     return user.is_parent or user.age >= movie.age_restriction
+    >>> @validator
+    ... def can_watch_movie(user, movie):
+    ...     # some example business logic, it can be as complex as you want
+    ...     return user.is_parent or user.age >= movie.age_restriction
 
 
-With validators you can decorate actions performed that will be checked against that validator::
+With validators you can decorate actions performed that will be checked against that validator:
 
 .. code:: python
 
@@ -52,9 +52,10 @@ With validators you can decorate actions performed that will be checked against 
 
 
 As you can see, arguments to validator must match those passed to function.
-Now every call to `watch_movie` will require that validator `can_watch_movie` passes::
+Now every call to :code:`watch_movie` will require that validator :code:`can_watch_movie` passes:
 
 .. code:: python
+
     >>> import collections
     >>> User = collections.namedtuple('User', ['name', 'age', 'is_parent'])
     >>> Movie = collections.namedtuple('Movie', ['name', 'age_restriction'])
@@ -63,42 +64,46 @@ Now every call to `watch_movie` will require that validator `can_watch_movie` pa
     >>> cartoon = Movie('Tom&Jerry', 0)
     >>> horror = Movie('Scream', 18)
 
-
     >>> watch_movie(bob, cartoon)
     'Bob' is watching movie 'Tom&Jerry'
+    
     >>> watch_movie(alice, horror)
     'Alice' is watching movie 'Scream'
+    
     >>> watch_movie(bob, horror) # doctest: +IGNORE_EXCEPTION_DETAIL
     Traceback (most recent call last):
       File "business_logic/core.py", line 48, in wrapper
         raise ServiceException("Validation failed!")
     business_logic.exceptions.LogicException: Validation failed!
 
-
-
-You can skip validation using `validate=False`::
+You can skip validation using :code:`validate=False`:
 
 .. code:: python
+
     >>> watch_movie(user=bob, movie=horror, validate=False)
     'Bob' is watching movie 'Scream'
 
 
-Also, if we just want to know if action is permitted, just let's run::
+Also, if we just want to know if action is permitted, just let's run:
 
 .. code:: python
+
     >>> validation = can_watch_movie(bob, horror, raise_exception=False)
     >>> validation
     <PermissionResult success=False error=Validation failed!>
+    
     >>> bool(validation)
     False
+    
     >>> validation.error  # it's actual exception
     LogicException('Validation failed!',)
 
 
 
-Chaining validators is really easy and readable::
+Chaining validators is really easy and readable:
 
 .. code:: python
+
    >>> @validator
    ... def is_old_enough(user, movie):
    ...     return user.age >= movie.age_restriction
@@ -121,6 +126,7 @@ all we have is a generic "Validation failed!" message. How to fix that? It's eas
 make our own errors!
 
 .. code:: python
+
    >>> from business_logic import LogicErrors, LogicException
    >>> class AgeRestrictionErrors(LogicErrors):
    ...     CANT_WATCH_MOVIE_TOO_YOUNG = LogicException("User is too young to watch this")
@@ -138,10 +144,13 @@ make our own errors!
    >>> result = is_old_enough(bob, horror, raise_exception=False)
    >>> bool(result)
    False
+   
    >>> result.error
    LogicException('User is too young to watch this',)
+   
    >>> result.error_code == 'CANT_WATCH_MOVIE_TOO_YOUNG'
    True
+   
    >>> # result.errors is shortcut to registry with all errors
    >>> result.error == result.errors['CANT_WATCH_MOVIE_TOO_YOUNG']
    True
@@ -150,6 +159,7 @@ make our own errors!
 Testing is really easy:
 
 .. code:: python
+
    >>> def test_user_cant_watch_movie_if_under_age_restriction():
    ...    bob = User('Bob', 6, False)
    ...    horror = Movie('Scream', 18)

@@ -1,6 +1,6 @@
-=============================
+=====================
 Python Business Logic
-=============================
+=====================
 
 .. image:: https://badge.fury.io/py/python-business-logic.svg
     :target: https://badge.fury.io/py/python-business-logic
@@ -30,7 +30,8 @@ Getting Started
 
 Core element of library are validators, functions that are created to ensure logic is correct::
 
-```python
+.. code:: python
+
    >>> from business_logic.core import validator
 
    >>> @validator
@@ -38,22 +39,22 @@ Core element of library are validators, functions that are created to ensure log
    ...     # some example business logic, it can be as complex as you want
    ...     return user.is_parent or user.age >= movie.age_restriction
 
-```
+
 With validators you can decorate actions performed that will be checked against that validator::
 
-```python
+.. code:: python
+
     >>> from business_logic.core import validated_by
 
     >>> @validated_by(can_watch_movie)
     ... def watch_movie(user, movie):
     ...     print("'{}' is watching movie '{}'".format(user.name, movie.name))
 
-```
 
 As you can see, arguments to validator must match those passed to function.
 Now every call to `watch_movie` will require that validator `can_watch_movie` passes::
 
-```python
+.. code:: python
     >>> import collections
     >>> User = collections.namedtuple('User', ['name', 'age', 'is_parent'])
     >>> Movie = collections.namedtuple('Movie', ['name', 'age_restriction'])
@@ -73,19 +74,18 @@ Now every call to `watch_movie` will require that validator `can_watch_movie` pa
         raise ServiceException("Validation failed!")
     business_logic.exceptions.LogicException: Validation failed!
 
-```
+
 
 You can skip validation using `validate=False`::
 
-```python
+.. code:: python
     >>> watch_movie(user=bob, movie=horror, validate=False)
     'Bob' is watching movie 'Scream'
 
-```
 
 Also, if we just want to know if action is permitted, just let's run::
 
-```python
+.. code:: python
     >>> validation = can_watch_movie(bob, horror, raise_exception=False)
     >>> validation
     <PermissionResult success=False error=Validation failed!>
@@ -94,12 +94,11 @@ Also, if we just want to know if action is permitted, just let's run::
     >>> validation.error  # it's actual exception
     LogicException('Validation failed!',)
 
-```
+
 
 Chaining validators is really easy and readable::
 
-```python
-
+.. code:: python
    >>> @validator
    ... def is_old_enough(user, movie):
    ...     return user.age >= movie.age_restriction
@@ -115,13 +114,13 @@ Chaining validators is really easy and readable::
         raise LogicException("Validation failed!")
    business_logic.exceptions.LogicException: Validation failed!
 
-```
+
 
 Ok, but we're still missing something. We don't know why exactly validation failed,
 all we have is a generic "Validation failed!" message. How to fix that? It's easy, let's
 make our own errors!
 
-```python
+.. code:: python
    >>> from business_logic import LogicErrors, LogicException
    >>> class AgeRestrictionErrors(LogicErrors):
    ...     CANT_WATCH_MOVIE_TOO_YOUNG = LogicException("User is too young to watch this")
@@ -147,11 +146,10 @@ make our own errors!
    >>> result.error == result.errors['CANT_WATCH_MOVIE_TOO_YOUNG']
    True
 
-```
 
 Testing is really easy:
 
-```python
+.. code:: python
    >>> def test_user_cant_watch_movie_if_under_age_restriction():
    ...    bob = User('Bob', 6, False)
    ...    horror = Movie('Scream', 18)
@@ -160,7 +158,6 @@ Testing is really easy:
 
    >>> test_user_cant_watch_movie_if_under_age_restriction()
 
-```
 
 
 Usage

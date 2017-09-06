@@ -11,7 +11,8 @@ Python Business Logic
 .. image:: https://codecov.io/gh/Valian/python-business-logic/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/Valian/python-business-logic
 
-Python package that makes creating complicated business logic easy. Currently under development.
+
+Traditionally, most web applications are written using MVC pattern. Python Business Logic helps you to add *Business Layer*, also called *Application Layer*, that is dependent only on models and composed of simple functions. Code written this way is extremely easy to read, test, and use in different scenarios. Package has no dependencies and can be used in any web framework, like Django, Flask, Bottle and others.
 
 Documentation
 -------------
@@ -25,10 +26,11 @@ Install Python Business Logic::
 
     pip install python-business-logic
 
+
 Getting Started
 ---------------
 
-Core element of library are validators, functions that are created to ensure logic is correct:
+Core elements of library are validators, functions created to ensure that business logic is correct:
 
 .. code:: python
 
@@ -40,6 +42,7 @@ Core element of library are validators, functions that are created to ensure log
     ...     return user.is_parent or user.age >= movie.age_restriction
 
 
+
 With validators you can decorate actions performed that will be checked against that validator:
 
 .. code:: python
@@ -49,6 +52,7 @@ With validators you can decorate actions performed that will be checked against 
     >>> @validated_by(can_watch_movie)
     ... def watch_movie(user, movie):
     ...     print("'{}' is watching movie '{}'".format(user.name, movie.name))
+
 
 
 As you can see, arguments to validator must match those passed to function.
@@ -76,12 +80,14 @@ Now every call to :code:`watch_movie` will require that validator :code:`can_wat
         raise ServiceException("Validation failed!")
     business_logic.exceptions.LogicException: Validation failed!
 
+
 You can skip validation using :code:`validate=False`:
 
 .. code:: python
 
     >>> watch_movie(user=bob, movie=horror, validate=False)
     'Bob' is watching movie 'Scream'
+
 
 
 Also, if we just want to know if action is permitted, just let's run:
@@ -154,6 +160,7 @@ make our own errors!
    >>> # result.errors is shortcut to registry with all errors
    >>> result.error == result.errors['CANT_WATCH_MOVIE_TOO_YOUNG']
    True
+
 
 
 Testing is really easy:

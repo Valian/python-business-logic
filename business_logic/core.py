@@ -1,6 +1,6 @@
 import functools
 
-from business_logic.exceptions import ServiceException
+from business_logic.exceptions import LogicException
 
 
 def validated_by(validation_func):
@@ -45,10 +45,10 @@ def validator(f):
             # if exception is not raised, check return value.
             # if it's False, raise generic exception and handle it as usual
             if result is False:
-                raise ServiceException("Validation failed!")
+                raise LogicException("Validation failed!")
             else:  # in other cases, return success
                 return ValidationResult(True, error=None)
-        except ServiceException as e:
+        except LogicException as e:
             # validation failed, if `raise_exception` is True, we re-raise exception
             if raise_exception:
                 raise
@@ -92,3 +92,6 @@ class ValidationResult(object):
 
     def __repr__(self):
         return u'<PermissionResult success={} error={}>'.format(self.success, self.error)
+
+    def __str__(self):
+        return str(self.error) if self.error else u''

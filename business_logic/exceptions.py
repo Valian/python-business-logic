@@ -1,13 +1,13 @@
-class ServiceException(Exception):
+class LogicException(Exception):
     def __init__(self, message=None, error_code=None, errors=None):
-        super(ServiceException, self).__init__(message)
+        super(LogicException, self).__init__(message)
         self.errors = errors
         self.error_code = error_code
 
 
-class InvalidOperationException(ServiceException):
+class InvalidOperationException(LogicException):
     pass
 
 
-class NotPermittedException(ServiceException):
+class NotPermittedException(LogicException):
     pass

@@ -16,6 +16,10 @@ from business_logic import core, exceptions
 
 class TestPermissionResult(TestCase):
 
+    def test_string_representation_equals_to_error(self):
+        result = core.ValidationResult(success=False, error=Exception("Test error"))
+        self.assertEqual(str(result), "Test error")
+
     def test_permission_result_coercible_to_bool(self):
         result_success = core.ValidationResult(success=True)
         result_failure = core.ValidationResult(success=False)
@@ -23,7 +27,7 @@ class TestPermissionResult(TestCase):
         self.assertFalse(result_failure)
 
     def test_permission_result_delegates_errors_and_error_code(self):
-        exception = exceptions.ServiceException("test", error_code="CODE", errors=object())
+        exception = exceptions.LogicException("test", error_code="CODE", errors=object())
         result = core.ValidationResult(success=False, error=exception)
         self.assertEqual(result.error_code, exception.error_code)
         self.assertEqual(result.errors, exception.errors)
@@ -58,12 +62,12 @@ class TestValidator(TestCase):
         self.decorated_validator = core.validator(self.mock_validator)
 
     def test_validator_raises_exception(self):
-        self.mock_validator.side_effect = exceptions.ServiceException()
+        self.mock_validator.side_effect = exceptions.LogicException()
         self.assertRaises(
-            exceptions.ServiceException,
+            exceptions.LogicException,
             lambda: self.decorated_validator())
         self.assertRaises(
-            exceptions.ServiceException,
+            exceptions.LogicException,
             lambda: self.decorated_validator(raise_exception=True))
 
     def test_passed_validator_returns_success_validation_result(self):
@@ -78,7 +82,7 @@ class TestValidator(TestCase):
         self.assertEqual(success1, success2)
 
     def test_validator_returns_false_permission_when_exception_raised_and_caught(self):
-        self.mock_validator.side_effect = exceptions.ServiceException()
+        self.mock_validator.side_effect = exceptions.LogicException()
         failure1 = self.decorated_validator(raise_exception=False)
         self.assertIsInstance(failure1, core.ValidationResult)
         self.assertFalse(failure1)
@@ -86,15 +90,15 @@ class TestValidator(TestCase):
     def test_generic_services_exception_is_raised_when_validator_return_false(self):
         self.mock_validator.return_value = False
         self.assertRaises(
-            core.ServiceException,
+            core.LogicException,
             lambda: self.decorated_validator(raise_exception=True))
 
     def test_returned_failure_contains_exception(self):
-        self.mock_validator.side_effect = exceptions.ServiceException()
+        self.mock_validator.side_effect = exceptions.LogicException()
         result = self.decorated_validator(raise_exception=False)
         self.assertFalse(result)
         self.assertFalse(result.success)
-        self.assertIsInstance(result.error, exceptions.ServiceException)
+        self.assertIsInstance(result.error, exceptions.LogicException)
         # it should be none because exception is not created using ServiceErrors
         self.assertIsNone(result.errors)
         self.assertIsNone(result.error_code)
@@ -149,5 +153,5 @@ class TestValidatedBy(TestCase):
         self.validated_func.assert_called_with(1, 2, a=3, b=4)
 
     def test_exception_from_validator_is_raised(self):
-        self.mock_validator.side_effect = exceptions.ServiceException("Fail!")
-        self.assertRaises(exceptions.ServiceException, self.mock_validator)
+        self.mock_validator.side_effect = exceptions.LogicException("Fail!")
+        self.assertRaises(exceptions.LogicException, self.mock_validator)

@@ -1,5 +1,7 @@
 import functools
 
+import six
+
 from business_logic.exceptions import LogicException
 
 
@@ -57,6 +59,7 @@ def validator(f):
     return wrapper
 
 
+@six.python_2_unicode_compatible
 class ValidationResult(object):
     """
     Class for storing result of validation function.
@@ -94,4 +97,4 @@ class ValidationResult(object):
         return u'<PermissionResult success={} error={}>'.format(self.success, self.error)
 
     def __str__(self):
-        return str(self.error) if self.error else u''
+        return six.text_type(self.error) if self.error else u''

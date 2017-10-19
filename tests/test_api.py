@@ -53,6 +53,11 @@ class TestPermissionResult(TestCase):
         # comparision with other types should raise false
         self.assertFalse(success_result == 1)
 
+    def test_unicode_is_handled_properly(self):
+        unicode_text = u'Zażółć gęślą jaźń'
+        result = core.ValidationResult(success=False, error=exceptions.LogicException(unicode_text))
+        self.assertEqual(u'{}'.format(result), unicode_text)
+
 
 class TestValidator(TestCase):
 

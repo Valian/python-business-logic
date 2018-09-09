@@ -14,7 +14,7 @@ from unittest import TestCase
 from business_logic import core, exceptions
 
 
-class TestPermissionResult(TestCase):
+class TestValidationResult(TestCase):
 
     def test_string_representation_equals_to_error(self):
         result = core.ValidationResult(success=False, error=Exception("Test error"))

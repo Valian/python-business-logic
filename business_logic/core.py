@@ -49,8 +49,12 @@ def validator(f):
             if result is False:
                 raise LogicException("Validation failed!")
             else:  # in other cases, return success
-                return ValidationResult(True, error=None)
+                return ValidationResult(success=True, error=None)
         except LogicException as e:
+            # check if exception was fully formatted
+            if e.required_params:
+                message = "You have to format exception with '{}' parameters first".format(e.required_params)
+                raise AssertionError(message)
             # validation failed, if `raise_exception` is True, we re-raise exception
             if raise_exception:
                 raise

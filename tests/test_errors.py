@@ -39,3 +39,22 @@ class TestErrorsAPI(BusinessLogicTestMixin, TestCase):
     def test_raising_exception_works_as_intended(self):
         with self.shouldRaiseException(TestErrors.INVALID_ACTION):
             raise TestErrors.INVALID_ACTION
+
+    def test_formatting_returns_copy_with_formatted_message(self):
+        parametrizable = exceptions.LogicException(
+            message='{user} has been {behaviour}!',
+            error_code='BEHAVIOUR',
+            errors={'BEHAVIOUR': 'test'})
+        formatted = parametrizable.format(
+            user='Marian', behaviour='naughty')
+        self.assertEqual(str(formatted), 'Marian has been naughty!')
+        self.assertIs(type(parametrizable), type(formatted))
+        self.assertEqual(parametrizable.errors, formatted.errors)
+        self.assertEqual(parametrizable.error_code, formatted.error_code)
+        self.assertEqual(parametrizable, formatted)
+        self.assertIsNot(parametrizable, formatted)
+
+    def test_formatting_message_with_invalid_parameters_raises_error(self):
+        exc = exceptions.LogicException('Test {person}?')
+        with self.assertRaises(KeyError):
+            exc.format(pearson='me')

@@ -122,6 +122,12 @@ class TestValidator(TestCase):
         self.decorated_validator(1, 2, a=3, b=4)
         self.mock_validator.assert_called_with(1, 2, a=3, b=4)
 
+    def test_parametrizable_exceptions_should_be_parametrized(self):
+        self.mock_validator.side_effect = exceptions.LogicException("I'm {parametrizable}!")
+        with self.assertRaises(AssertionError) as cm:
+            self.decorated_validator()
+        self.assertIn('parametrizable', str(cm.exception))
+
 
 class TestValidatedBy(TestCase):
 

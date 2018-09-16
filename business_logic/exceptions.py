@@ -36,6 +36,12 @@ class LogicException(Exception):
     def __hash__(self):
         return hash(str(self))
 
+    def __repr__(self):
+        cls_name = self.__class__.__name__
+        exc_args = ', '.join(repr(a) for a in self.args)
+        code = repr(self.error_code)
+        return u'{}({}, error_code={})'.format(cls_name, exc_args, code)
+
 
 class InvalidOperationException(LogicException):
     pass

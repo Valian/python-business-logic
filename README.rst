@@ -79,8 +79,6 @@ Now every call to :code:`watch_movie` will require that validator :code:`can_wat
     
     >>> watch_movie(bob, horror) # doctest: +IGNORE_EXCEPTION_DETAIL
     Traceback (most recent call last):
-      File "business_logic/core.py", line 48, in wrapper
-        raise ServiceException("Validation failed!")
     business_logic.exceptions.LogicException: Validation failed!
 
 
@@ -124,8 +122,6 @@ Chaining validators is really easy and readable:
 
    >>> can_watch_movie(bob, horror)  # doctest: +IGNORE_EXCEPTION_DETAIL
    Traceback (most recent call last):
-      File "business_logic/core.py", line 48, in wrapper
-        raise LogicException("Validation failed!")
    business_logic.exceptions.LogicException: Validation failed!
 
 

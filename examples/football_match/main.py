@@ -80,5 +80,6 @@ def simulate_match(match, potential_shooters):
     print(u"{:15} - {}".format(match.first_team.name, match.first_team.goals))
     print(u"{:15} - {}".format(match.second_team.name, match.second_team.goals))
 
+
 if __name__ == '__main__':
     main()

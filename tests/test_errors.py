@@ -14,6 +14,29 @@ class TestErrors(errors.LogicErrors):
         "This action is permitted just because :)")
 
 
+class TestLogicException(TestCase):
+
+    def test_exception_repr_is_working_correctly(self):
+        exc = exceptions.LogicException('Test', error_code='TEST')
+        self.assertEqual(repr(exc), "LogicException('Test', error_code='TEST')")
+
+    def test_exception_is_hashable(self):
+        exc = exceptions.LogicException('Test')
+        self.assertIsInstance(hash(exc), int)
+
+    def test_exceptions_with_same_error_codes_are_equal(self):
+        exc1 = exceptions.LogicException('Test', error_code='TEST')
+        exc2 = exceptions.LogicException('Test', error_code='TEST')
+        self.assertEqual(exc1, exc2)
+
+    def test_exceptions_without_error_codes_are_equal_only_if_messages_are_equal(self):
+        exc1 = exceptions.LogicException('Test')
+        exc2 = exceptions.LogicException('Test')
+        exc3 = exceptions.LogicException('Not Test')
+        self.assertEqual(exc1, exc2)
+        self.assertNotEqual(exc1, exc3)
+
+
 class TestErrorsAPI(BusinessLogicTestMixin, TestCase):
 
     def test_service_errors_magically_receives_error_codes(self):

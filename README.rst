@@ -104,7 +104,7 @@ Also, if we just want to know if action is permitted, just let's run:
     >>> bool(validation)
     False
     
-    >>> validation.error  # it's actual exception
+    >>> validation.error  # it's an actual exception
     LogicException('Validation failed!',)
 
 
@@ -120,7 +120,7 @@ Chaining validators is really easy and readable:
    >>> @validator
    ... def can_watch_movie(user, movie):
    ...     is_old_enough(user, movie)
-   ...     # we don't have to return anything, @validator use exceptions
+   ...     # we don't have to return anything, @validator makes use of exceptions
 
    >>> can_watch_movie(bob, horror)  # doctest: +IGNORE_EXCEPTION_DETAIL
    Traceback (most recent call last):
@@ -173,12 +173,23 @@ Testing is really easy:
    >>> def test_user_cant_watch_movie_if_under_age_restriction():
    ...    bob = User('Bob', 6, False)
    ...    horror = Movie('Scream', 18)
-   ...    result = can_watch_movie(bob, horror, raise_exception=False)
+   ...    result = is_old_enough(bob, horror, raise_exception=False)
+   ...    # There are two ways to check if expected exceptions was raised
    ...    assert result.error_code == 'CANT_WATCH_MOVIE_TOO_YOUNG'
+   ...    assert result.error == AgeRestrictionErrors.CANT_WATCH_MOVIE_TOO_YOUNG
 
    >>> test_user_cant_watch_movie_if_under_age_restriction()
 
 
+Also, if you need to display parametrizable error messages, just use `.format` method
+
+.. code:: python
+   >>>
+   >>> exc = LogicException('User {user} is way too young!', error_code='TOO_YOUNG')
+   >>> formatted_exc = exc.format(user='Bob')
+   >>> assert str(formatted_exc) == 'User Bob is way too young!'
+   >>> assert exc.error_code == formatted_exc.error_code
+   >>> assert exc == formatted_exc
 
 Usage
 -----

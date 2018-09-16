@@ -25,7 +25,7 @@ def validated_by(validation_func):
                 validation_func(raise_exception=True, *args, **kwargs)
             # validation passed or skipped, we can run original func
             return f(*args, **kwargs)
-        wrapper._validator = validation_func
+        wrapper.validate = validation_func
         return wrapper
     return decorator
 

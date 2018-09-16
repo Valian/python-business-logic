@@ -105,7 +105,7 @@ Also, if we just want to know if action is permitted, just let's run:
     False
     
     >>> validation.error  # it's an actual exception
-    LogicException('Validation failed!',)
+    LogicException('Validation failed!')
 
 
 
@@ -155,7 +155,7 @@ make our own errors!
    False
    
    >>> result.error
-   LogicException('User is too young to watch this',)
+   LogicException('User is too young to watch this')
    
    >>> result.error_code == 'CANT_WATCH_MOVIE_TOO_YOUNG'
    True

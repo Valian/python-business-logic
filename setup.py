@@ -56,7 +56,9 @@ setup(
         'business_logic',
     ],
     include_package_data=True,
-    install_requires=[],
+    install_requires=[
+        'six'
+    ],
     license="MIT",
     zip_safe=False,
     keywords='python-business-logic',
